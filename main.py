@@ -10,18 +10,18 @@ import colorsys
 SAMPLE_RATE = 44100  # Hz
 BLOCK_SIZE = 4410    # 100 ms
 
-# Frequency to color 
-def frequency_to_color(freq, min_freq=0, max_freq=2000):
+# Frequency to colour 
+def frequency_to_colour(freq, min_freq=0, max_freq=2000):
     freq = np.clip(freq, min_freq, max_freq)
     h = (freq - min_freq) / (max_freq - min_freq)
     r, g, b = colorsys.hls_to_rgb(h, 0.5, 1.0)
 
     return f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}'
 
-class VoiceColorApp:
+class VoicecolourApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Color of Your Voice")
+        self.root.title("colour of Your Voice")
 
         # Create plots
         self.fig, (self.ax_waveform, self.ax_fft) = plt.subplots(2, 1, figsize=(8, 6))
@@ -29,9 +29,9 @@ class VoiceColorApp:
         self.canvas = FigureCanvasTkAgg(self.fig, master=root)
         self.canvas.get_tk_widget().pack()
 
-        # Color block
-        self.color_frame = tk.Frame(root, width=800, height=100, bg='black')
-        self.color_frame.pack(pady=10)
+        # colour block
+        self.colour_frame = tk.Frame(root, width=800, height=100, bg='black')
+        self.colour_frame.pack(pady=10)
 
         # Frequency label
         self.freq_label = tk.Label(root, text="Listening...", font=("Helvetica", 14))
@@ -96,9 +96,9 @@ class VoiceColorApp:
             self.ax_fft.set_ylim(0, 1)
             self.ax_fft.grid(True)
 
-            # Update color
-            rgb_color = frequency_to_color(dominant_freq)
-            self.color_frame.config(bg=rgb_color)
+            # Update colour
+            rgb_colour = frequency_to_colour(dominant_freq)
+            self.colour_frame.config(bg=rgb_colour)
             self.freq_label.config(text=f"Dominant Frequency: {dominant_freq:.1f} Hz")
 
             self.canvas.draw()
@@ -108,5 +108,5 @@ class VoiceColorApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = VoiceColorApp(root)
+    app = VoicecolourApp(root)
     root.mainloop()
