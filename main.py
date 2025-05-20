@@ -24,7 +24,7 @@ class VoicecolourApp:
         self.root.title("colour of Your Voice")
 
         # Create plots
-        self.fig, (self.ax_waveform, self.ax_fft) = plt.subplots(2, 1, figsize=(8, 6))
+        self.fig, (self.ax_waveform, self.ax_fft) = plt.subplots(2, 1, figsize=(12, 8))
         self.fig.tight_layout(pad=3)
         self.canvas = FigureCanvasTkAgg(self.fig, master=root)
         self.canvas.get_tk_widget().pack()
@@ -74,12 +74,16 @@ class VoicecolourApp:
 
             # FFT
             fft_vals = np.abs(np.fft.rfft(audio))
-            fft_vals /= np.max(fft_vals) if np.max(fft_vals) != 0 else 1
             fft_freqs = np.fft.rfftfreq(len(audio), 1 / SAMPLE_RATE)
+
+            # Normalize
+            fft_vals /= np.max(fft_vals) if np.max(fft_vals) != 0 else 1
+            
+            # Find dominant frequency
             dominant_idx = np.argmax(fft_vals)
             dominant_freq = fft_freqs[dominant_idx]
 
-            # Plot raw audio signal
+            # Waveform plot
             self.ax_waveform.clear()
             self.ax_waveform.plot(t, audio)
             self.ax_waveform.set_title("Raw Audio Signal")
@@ -87,7 +91,7 @@ class VoicecolourApp:
             self.ax_waveform.set_ylim(-1, 1)
             self.ax_waveform.grid(True)
 
-            # Plot FFT
+            # FFT plot
             self.ax_fft.clear()
             self.ax_fft.plot(fft_freqs, fft_vals)
             self.ax_fft.set_title("FFT Spectrum")
@@ -96,9 +100,9 @@ class VoicecolourApp:
             self.ax_fft.set_ylim(0, 1)
             self.ax_fft.grid(True)
 
-            # Update colour
-            rgb_colour = frequency_to_colour(dominant_freq)
-            self.colour_frame.config(bg=rgb_colour)
+            # Set colour block and label
+            colour = frequency_to_colour(dominant_freq)
+            self.colour_frame.config(bg=colour)
             self.freq_label.config(text=f"Dominant Frequency: {dominant_freq:.1f} Hz")
 
             self.canvas.draw()
