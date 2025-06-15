@@ -28,4 +28,5 @@ We then perform **Fast Fourier Transfrom** to obtain the frequency signal from t
 
 Finally, the dominant frequency is extracted and is converted to an RGB colour using linear interpolation between 0 Hz and 2000 Hz (This can be changed in the `frequency_to_colour` function)  
 
-![image](https://github.com/user-attachments/assets/840d36ba-1ad8-45e1-a00f-daca54c2552b)
+![Screenshot 2025-06-15 114544](https://github.com/user-attachments/assets/ddb6826d-daf3-4536-ada9-79abba0910d8)
+
